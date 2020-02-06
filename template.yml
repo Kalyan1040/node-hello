@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: 2010-09-09
+Paramaters:
+  LambdaRole:
+    Type: String
+Resources:
+  JSONLAMBDA:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: gogo-node-test
+      Handler: lambda_function.lambda_handler
+      Runtime: Node.js 12.x
+      Code: .
+      MemorySize: 1600
+      Timeout: 60
+      Role: !Sub arn:aws:iam:${AWS::AccountId}:role/${LambdaRole}
+
+    

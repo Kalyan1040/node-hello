@@ -1,0 +1,22 @@
+def gitRepo = "https://github.com/opsworkshop/node-hello.git"
+def ROLE_ARN = "****************"
+pipeline {
+    agent any 
+    stages {
+        stage('Code checkout') {
+            script {
+                echo "starting with code checkout from github"
+                git url: ${gitRepo}, credentialsId: gitcred, branch: master 
+            }
+        }
+        stage('aws sam deployment')
+            script {
+                samDeploy([
+                    credentialsId: 'awscred',  
+                    region: 'us-east-1', 
+                    roleArn: '${ROLE_ARN}',  
+                    stackName: 'test-node-lmda-stck', 
+                    templateFile: './template.yml'])
+            }
+    }
+}
